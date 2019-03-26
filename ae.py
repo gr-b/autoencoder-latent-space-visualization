@@ -74,7 +74,7 @@ decoded_imgs = decoder.predict(encoded_imgs)
 
 #plt.ion()
 
-fig, ax = plt.subplots(2)
+fig, ax = plt.subplots(1, 2)
 ax[0].scatter(encoded_imgs[:,0],encoded_imgs[:,1],
 	c=y_test, s=8, cmap='tab10')
 
@@ -87,11 +87,11 @@ def onclick(event):
     decoded_img = decoder.predict(latent_vector)
     decoded_img = decoded_img.reshape(28, 28)
     ax[1].imshow(decoded_img, cmap='gray')
-    plt.show()
+    plt.draw()
 
 # button_press_event
 # motion_notify_event
-cid = fig.canvas.mpl_connect('button_press_event', onclick)
+cid = fig.canvas.mpl_connect('motion_notify_event', onclick)
 
 
 
