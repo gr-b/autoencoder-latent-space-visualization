@@ -1,7 +1,12 @@
-from keras.layers import Input, Dense
-from keras.models import Model
-from keras.models import load_model
+import matplotlib.pyplot as plt
+import numpy as np
+
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.models import load_model
 import os
+
+
 
 bottleneck_size = 2
 
@@ -29,7 +34,6 @@ ae.compile(optimizer='adam', loss='mean_squared_error')
 ######
 from keras.datasets import mnist
 import numpy as np
-'''
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
 x_train = x_train.astype('float32') / 255.
@@ -40,13 +44,13 @@ np.save("x_train", x_train)
 np.save("y_train", y_train)
 np.save("x_test", x_test)
 np.save("y_test", y_test)
-'''
 
+'''
 x_train = np.load("x_train.npy")
 y_train = np.load("y_train.npy")
 x_test =  np.load("x_test.npy")
 y_test =  np.load("y_test.npy")
-
+'''
 
 ###########
 if "model.h5" in os.listdir():
@@ -67,31 +71,30 @@ encoded_imgs = encoder.predict(x_test)
 decoded_imgs = decoder.predict(encoded_imgs)
 
 
-# use Matplotlib (don't ask)
-import matplotlib.pyplot as plt
 
-'''
-n = 10  # how many digits we will display
-plt.figure(figsize=(20, 4))
-for i in range(n):
-    # display original
-    ax = plt.subplot(2, n, i + 1)
-    plt.imshow(x_test[i].reshape(28, 28))
-    plt.gray()
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
+#plt.ion()
 
-    # display reconstruction
-    ax = plt.subplot(2, n, i + 1 + n)
-    plt.imshow(decoded_imgs[i].reshape(28, 28))
-    plt.gray()
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
-plt.show()
-'''
-
-plt.scatter(encoded_imgs[:,0],encoded_imgs[:,1],
+fig, ax = plt.subplots(2)
+ax[0].scatter(encoded_imgs[:,0],encoded_imgs[:,1],
 	c=y_test, s=8, cmap='tab10')
+
+
+def onclick(event):
+    global flag
+    ix, iy = event.xdata, event.ydata
+    latent_vector = np.array([[ix, iy]])
+    
+    decoded_img = decoder.predict(latent_vector)
+    decoded_img = decoded_img.reshape(28, 28)
+    ax[1].imshow(decoded_img, cmap='gray')
+    plt.show()
+
+# button_press_event
+# motion_notify_event
+cid = fig.canvas.mpl_connect('button_press_event', onclick)
+
+
+
 plt.show() 
 
 
