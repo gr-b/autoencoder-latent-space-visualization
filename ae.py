@@ -42,10 +42,6 @@ x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32')  / 255.
 x_train = x_train.reshape(x_train.shape[0], 784)
 x_test = x_test.reshape(x_test.shape[0], 784)
-np.save("x_train", x_train)
-np.save("y_train", y_train)
-np.save("x_test", x_test)
-np.save("y_test", y_test)
 
 
 ###########

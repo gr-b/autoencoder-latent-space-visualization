@@ -61,13 +61,20 @@ encoded_imgs = encoder.predict(x_test)
 decoded_imgs = decoder.predict(encoded_imgs)
 
 mesh = {}
-for x in range(-30, 70):
-    for y in range(-90, 90):
+x_range = list(range(-90, 90))
+y_range = list(range(-90, 90))
+for x in x_range:
+    for y in y_range:
         if not x in mesh:
             mesh[x] = {}
         latent_vector = np.array([[x, y]])
         mesh[x][y] = decoder.predict(latent_vector).reshape(28, 28)
-         
+
+arr = np.zeros((180, 180, 28, 28))
+for x in x_range:
+    for y in y_range:
+        arr[x][y] = mesh[x][y]
+del mesh            
 
 
 
@@ -85,7 +92,7 @@ def onclick(event):
         return
     ix, iy = int(event.xdata), int(event.ydata)
     
-    ax[1].imshow(mesh[ix][iy], cmap='gray')
+    ax[1].imshow(arr[ix][iy], cmap='gray')
     plt.draw()
 
 # button_press_event
