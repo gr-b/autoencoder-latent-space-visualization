@@ -1,3 +1,5 @@
+# (C) 2019 Griffin Bishop - http://griffinbishop.com #
+# Video in action: https://gfycat.com/inconsequentialesteemeddartfrog
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -45,12 +47,6 @@ np.save("y_train", y_train)
 np.save("x_test", x_test)
 np.save("y_test", y_test)
 
-'''
-x_train = np.load("x_train.npy")
-y_train = np.load("y_train.npy")
-x_test =  np.load("x_test.npy")
-y_test =  np.load("y_test.npy")
-'''
 
 ###########
 if "model.h5" in os.listdir():
@@ -72,7 +68,6 @@ decoded_imgs = decoder.predict(encoded_imgs)
 
 
 
-#plt.ion()
 
 fig, ax = plt.subplots(1, 2)
 ax[0].scatter(encoded_imgs[:,0],encoded_imgs[:,1],

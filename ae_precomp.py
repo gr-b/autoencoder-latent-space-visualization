@@ -1,3 +1,4 @@
+# (C) 2019 Griffin Bishop - http://griffinbishop.com #
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -40,17 +41,6 @@ x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32')  / 255.
 x_train = x_train.reshape(x_train.shape[0], 784)
 x_test = x_test.reshape(x_test.shape[0], 784)
-np.save("x_train", x_train)
-np.save("y_train", y_train)
-np.save("x_test", x_test)
-np.save("y_test", y_test)
-
-'''
-x_train = np.load("x_train.npy")
-y_train = np.load("y_train.npy")
-x_test =  np.load("x_test.npy")
-y_test =  np.load("y_test.npy")
-'''
 
 ###########
 if "model.h5" in os.listdir():
@@ -72,7 +62,7 @@ decoded_imgs = decoder.predict(encoded_imgs)
 
 mesh = {}
 for x in range(-30, 70):
-    for y in range(-90, 30):
+    for y in range(-90, 90):
         if not x in mesh:
             mesh[x] = {}
         latent_vector = np.array([[x, y]])
@@ -94,10 +84,7 @@ def onclick(event):
     if event.xdata is None or event.ydata is None:
         return
     ix, iy = int(event.xdata), int(event.ydata)
-    #latent_vector = np.array([[ix, iy]])
     
-    #decoded_img = decoder.predict(latent_vector)
-    #decoded_img = decoded_img.reshape(28, 28)
     ax[1].imshow(mesh[ix][iy], cmap='gray')
     plt.draw()
 
